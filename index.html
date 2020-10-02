@@ -1,5 +1,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <body>
+	<div align="center">
+		<h2 style="color:#0f4631;"> Embedded Service Code Snipped </h2>
+	</div>
 <style type='text/css'>
 	.embeddedServiceHelpButton .helpButton .uiButton {
 		background-color: #4C9E92;
@@ -14,27 +17,94 @@
 		url('https://c1.sfdcstatic.com/etc/clientlibs/sfdc-aem-master/clientlibs_base/fonts/SalesforceSans-Regular.ttf') format('truetype');
 	}
 </style>
-
 <script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
 <script type='text/javascript'>
 	var initESW = function(gslbBaseURL) {
-		embedded_svc.settings.displayHelpButton = true; //Or false
-		embedded_svc.settings.language = ''; //For example, enter 'en' or 'en-US'
-
-		//embedded_svc.settings.defaultMinimizedText = '...'; //(Defaults to Chat with an Expert)
-		//embedded_svc.settings.disabledMinimizedText = '...'; //(Defaults to Agent Offline)
-
-		//embedded_svc.settings.loadingText = ''; //(Defaults to Loading)
-		//embedded_svc.settings.storageDomain = 'yourdomain.com'; //(Sets the domain for your deployment so that visitors can navigate subdomains during a chat session)
-
-		// Settings for Chat
-		//embedded_svc.settings.directToButtonRouting = function(prechatFormData) {
-			// Dynamically changes the button ID based on what the visitor enters in the pre-chat form.
-			// Returns a valid button ID.
-		//};
-		//embedded_svc.settings.prepopulatedPrechatFields = {}; //Sets the auto-population of pre-chat form fields
-		//embedded_svc.settings.fallbackRouting = []; //An array of button IDs, user IDs, or userId_buttonId
-		//embedded_svc.settings.offlineSupportMinimizedText = '...'; //(Defaults to Contact Us)
+		embedded_svc.settings.displayHelpButton = true;
+		embedded_svc.settings.language = 'no';
+		embedded_svc.settings.defaultMinimizedText = 'Live Chat';
+		embedded_svc.settings.disabledMinimizedText = 'Offline';
+		
+		embedded_svc.settings.extraPrechatFormDetails = [{
+		  "label": "Case Origin",
+		  "value": "Chat",
+		  "displayToAgent": false
+		}];
+		
+		embedded_svc.settings.extraPrechatInfo = [{
+		  "entityName": "Contact",
+		  "showOnCreate": true,
+		  "linkToEntityName": "Case",
+		  "linkToEntityField": "ContactId",
+		  "saveToTranscript": "ContactId",
+		  "entityFieldMaps": [{
+		    "isExactMatch": true,
+		    "fieldName": "Email",
+		    "doCreate": true,
+		    "doFind": true,
+		    "label": "Email"
+		  },{
+		    "isExactMatch": false,
+		    "fieldName": "Phone",
+		    "doCreate": true,
+		    "doFind": false,
+		    "label": "Phone"
+		  },{
+		    "isExactMatch": false,
+		    "fieldName": "FirstName",
+		    "doCreate": true,
+		    "doFind": false,
+		    "label": "First Name"
+		  },{
+		    "isExactMatch": false,
+		    "fieldName": "LastName",
+		    "doCreate": true,
+		    "doFind": false,
+		    "label": "Last Name"
+		  }]
+		},{
+		  "entityName": "Case",
+		  "showOnCreate": true,
+		  "saveToTranscript": "CaseId",
+		  "entityFieldMaps": [
+		  {
+		    "isExactMatch": false,
+		    "fieldName": "Origin",
+		    "doCreate": true,
+		    "doFind": false,
+		    "label": "Case Origin"
+		  }, {
+		    "isExactMatch": false,
+		    "fieldName": "Subject",
+		    "doCreate": true,
+		    "doFind": false,
+		    "label": "Subject"
+		  }, {
+		    "isExactMatch": false,
+		    "fieldName": "SuppliedPhone",
+		    "doCreate": true,
+		    "doFind": false,
+		    "label": "Phone"
+		  }, {
+		    "isExactMatch": false,
+		    "fieldName": "SuppliedEmail",
+		    "doCreate": true,
+		    "doFind": false,
+		    "label": "Email"
+		  }, {
+		    "isExactMatch": false,
+		    "fieldName": "SuppliedCompany",
+		    "doCreate": true,
+		    "doFind": false,
+		    "label": "Web Company"
+		  }, {
+		    "isExactMatch": false,
+		    "fieldName": "SuppliedName",
+		    "doCreate": true,
+		    "doFind": false,
+		    "label": "First Name"
+		  }]
+		}];
 
 		embedded_svc.settings.enabledFeatures = ['LiveAgent'];
 		embedded_svc.settings.entryFeature = 'LiveAgent';
